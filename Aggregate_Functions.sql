@@ -58,15 +58,30 @@ ORDER BY percentage DESC,contest_id ASC;
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 --- Question 5: Queries, Quality and Percentage 
---- https://leetcode.com/problems/queries-quality-and-percentage/description/?envType=study-plan-v2&envId=top-sql-50
-
-
+--- https://leetcode.com/problems/queries-quality-and-percentage/submissions/1446449152/?envType=study-plan-v2&envId=top-sql-50
+  
+SELECT 
+    query_name,
+    ROUND(AVG(rating/position),2) AS quality,
+    ROUND(COUNT(CASE WHEN rating < 3 THEN 1 END)/ (COUNT(rating))*100, 2) AS poor_query_percentage
+FROM Queries
+WHERE query_name IS NOT NULL
+GROUP BY 1;
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- Question 6: Monthly Transaction 1 
---- https://leetcode.com/problems/monthly-transactions-i/description/?envType=study-plan-v2&envId=top-sql-50
+--- https://leetcode.com/problems/monthly-transactions-i/submissions/1446749533/?envType=study-plan-v2&envId=top-sql-50
 
 
+SELECT 
+    SUBSTR(trans_date, 1, 7) AS month,
+    country,
+    COUNT(country) AS  trans_count,
+    COUNT(CASE WHEN state = 'approved' THEN 1 END) AS approved_count,
+    SUM(amount) as trans_total_amount,
+    SUM(CASE WHEN state = 'approved' THEN amount ELSE 0 end) AS approved_total_amount
+FROM Transactions
+GROUP BY 1,2;
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
